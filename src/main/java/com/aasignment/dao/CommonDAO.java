@@ -1,5 +1,8 @@
 package com.aasignment.dao;
-
+/**
+ * this class implements GenericDAO 
+ * link {@* Control classes}
+ */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
