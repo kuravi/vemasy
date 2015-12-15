@@ -2,6 +2,11 @@ package com.aasignment.model;
 
 import java.io.Serializable;
 
+/**
+ * This is he model object for vehical 
+ * @author Vajira
+ *
+ */
 public class Vehical implements Serializable{
 
 	private static final long serialVersionUID = 1L;
