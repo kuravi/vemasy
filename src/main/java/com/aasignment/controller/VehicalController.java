@@ -59,8 +59,8 @@ public class VehicalController {
 		vehicalService.updateVehical(vehical);
 	}*/
 	
-	@RequestMapping(value = "/rest/updateVehical", method = RequestMethod.GET)
-	public @ResponseBody Vehical updateVehical(@PathVariable("id") Vehical vehical) {
+	@RequestMapping(value = "/rest/updateVehical/{vehicalNumber}", method = RequestMethod.GET)
+	public @ResponseBody Vehical updateVehical(@PathVariable("vehicalNumber") Vehical vehical) {
 		logger.info("update vehical = " + vehical.toString());
 		vehicalService.updateVehical(vehical);
 		return vehical;
