@@ -13,11 +13,20 @@ public class Vehical implements Serializable{
 	private String description;
 	private String number;
 	private String type;
+	private String ownerId;
 	
 	
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
+
 	public Vehical(){}
 	
-	public Vehical(String number, String description, String type) {
+	public Vehical(String number, String description, String type,String ownerId) {
 		super();
 		this.number = number;
 		this.description = description;

@@ -25,14 +25,12 @@ public class LoginController {
 	public @ResponseBody User userLogin(@PathVariable("userId") String userId){
 		logger.info(" User id  : "+userId );
 		if(userService.userLogin(userId)==null){
-		return null;
-		}else return userService.userLogin(userId);
+			return null;
+		}else {
+			return userService.userLogin(userId);
+		}
 	}
 	
-	/*@RequestMapping(value = "/rest/vehical/{id}", method = RequestMethod.GET)
-	public @ResponseBody Vehical getVehical(@PathVariable("id") String vehicalNo) {
-		logger.info(" getVehical for id : "+vehicalNo);	
-		return vehicalService.getVehical(vehicalNo);
-	}*/
+	
 	
 }

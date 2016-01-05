@@ -6,6 +6,7 @@ package com.aasignment.dao;
  */
 import java.util.List;
 
+import com.aasignment.model.Owner;
 import com.aasignment.model.User;
 import com.aasignment.model.Vehical;
 
@@ -19,8 +20,9 @@ public interface GenericDAO {
 	
 	
 	public User loginUser(String userId);
-	// owner
 	
+	// owner
+	public Owner ownerById(String ownerId);
 	
 	//Licene
 	

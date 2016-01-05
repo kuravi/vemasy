@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.aasignment.model.Owner;
 import com.aasignment.model.User;
 import com.aasignment.model.Vehical;
 
@@ -27,12 +28,12 @@ public class CommonDAO  implements GenericDAO{
 	
 	public List<Vehical> getAllVehicalsbyOwner(String ownerId) {
 		logger.info("passed id "+ownerId);
-		List<Vehical> ownersVehicals = new ArrayList<Vehical>();
-		String sql = "SELECT * FROM VEHICAL ";
+		
+		String sql = "SELECT * FROM VEHICAL where OWNER_ID = ?";
 		try {
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			//ps.setString(1, ownerId);
+			ps.setString(1, ownerId);
 			List<Vehical> vehicalList =  new ArrayList<Vehical>();
 			Vehical vehical  = null;
 			ResultSet rs = ps.executeQuery();
@@ -40,12 +41,14 @@ public class CommonDAO  implements GenericDAO{
 				vehical = new Vehical(
 						rs.getString("VEHICAL_NUMBER"),
 						rs.getString("DESCRIPTION"), 
-						rs.getString("VEHICAL_TYPE")
+						rs.getString("VEHICAL_TYPE"),
+						rs.getString("OWNER_ID")
 				);
 			vehicalList.add(vehical);
 			}
 			rs.close();
 			ps.close();
+			logger.info("Vehical List Size"+vehicalList.size());
 			return vehicalList ;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -53,7 +56,9 @@ public class CommonDAO  implements GenericDAO{
 			if (conn != null) {
 				try {
 				conn.close();
-				} catch (SQLException e) {}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -73,7 +78,8 @@ public class CommonDAO  implements GenericDAO{
 					vehical = new Vehical(
 							rs.getString("VEHICAL_NUMBER"),
 							rs.getString("DESCRIPTION"), 
-							rs.getString("VEHICAL_TYPE")
+							rs.getString("VEHICAL_TYPE"),
+							rs.getString("OWNER_ID")
 					);
 				}else{ return null;}
 				rs.close();
@@ -85,7 +91,9 @@ public class CommonDAO  implements GenericDAO{
 				if (conn != null) {
 					try {
 					conn.close();
-					} catch (SQLException e) {}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 	}
@@ -169,7 +177,7 @@ public class CommonDAO  implements GenericDAO{
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				user.setUserId(rs.getString("USER_ID"));
-				user.setUsername(rs.getString("PASSWORD"));
+				user.setPassword(rs.getString("PASSWORD"));
 				user.setUserRole(rs.getString("USER_TYPE"));
 				
 			}else{ return null;}
@@ -185,6 +193,41 @@ public class CommonDAO  implements GenericDAO{
 				} catch (SQLException e) {}
 			}
 		}
+	}
+
+
+
+	@Override
+	public Owner ownerById(String ownerId) {
+		logger.info("loginUser : "+ownerId);
+		String sql = "SELECT * FROM OWNER WHERE USER_NAME = ?";
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, ownerId);
+			Owner owner  = new Owner();
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				owner.setUserId(rs.getInt("ID"));
+				owner.setUserName(rs.getString("USER_NAME"));
+				owner.setFirstName(rs.getString("FIRST_NAME"));
+				owner.setLastName(rs.getString("LAST_NAME"));
+				owner.setNic(rs.getString("NIC"));
+				owner.setReNewDate(rs.getDate("RENEWAL_DATE"));
+				owner.setCompanyName(rs.getString("COMPANY_NAME"));			
+			}else{ return null;}
+			rs.close();
+			ps.close();
+			return owner ;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {}
+			}
+		}		
 	}
 	
 	
