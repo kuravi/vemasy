@@ -6,6 +6,7 @@ package com.aasignment.dao;
  */
 import java.util.List;
 
+import com.aasignment.model.User;
 import com.aasignment.model.Vehical;
 
 public interface GenericDAO {
@@ -16,6 +17,8 @@ public interface GenericDAO {
 	public void updateVehical(Vehical vehical);
 	public void deleteVehical(String id);
 	
+	
+	public User loginUser(String userId);
 	// owner
 	
 	
