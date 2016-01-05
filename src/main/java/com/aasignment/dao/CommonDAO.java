@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.aasignment.model.User;
 import com.aasignment.model.Vehical;
 
 
@@ -74,7 +75,7 @@ public class CommonDAO  implements GenericDAO{
 							rs.getString("DESCRIPTION"), 
 							rs.getString("VEHICAL_TYPE")
 					);
-				}
+				}else{ return null;}
 				rs.close();
 				ps.close();
 				return vehical ;
@@ -153,5 +154,40 @@ public class CommonDAO  implements GenericDAO{
 			e.printStackTrace();
 		}
 	}
+
+
+
+	@Override
+	public User loginUser(String userId) {
+		logger.info("loginUser : "+userId);
+		String sql = "SELECT * FROM USER WHERE USER_ID = ?";
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, userId);
+			User user  = new User();
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				user.setUserId(rs.getString("USER_ID"));
+				user.setUsername(rs.getString("PASSWORD"));
+				user.setUserRole(rs.getString("USER_TYPE"));
+				
+			}else{ return null;}
+			rs.close();
+			ps.close();
+			return user ;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
+				} catch (SQLException e) {}
+			}
+		}
+	}
+	
+	
+	
 
 }
